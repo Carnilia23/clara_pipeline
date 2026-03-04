@@ -1,0 +1,101 @@
+{
+  "name": "Clara Pipeline B - Onboarding to v2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clara/onboarding",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-onboard",
+      "name": "Webhook - Onboarding Input",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "clara-onboarding-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\nconst accountId = body.account_id;\nif (!accountId) throw new Error('account_id required');\n\n// Determine input type\nconst isStructuredForm = body.business_hours || body.emergency_definition || body.emergency_routing_rules;\nconst source = body.source || 'onboarding_call';\n\nreturn [{ json: { \n  account_id: accountId, \n  raw: body, \n  is_structured_form: isStructuredForm,\n  source,\n  transcript: body.transcript || ''\n}}];"
+      },
+      "id": "normalize-onboard",
+      "name": "Normalize Onboarding Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [{ "value1": "={{ $json.is_structured_form }}", "value2": true }]
+        }
+      },
+      "id": "route-input",
+      "name": "Form or Transcript?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [{
+            "name": "=",
+            "value": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, system: 'Extract configuration updates from onboarding call transcript. Return ONLY valid JSON with same schema as account memo. Only include fields explicitly confirmed. Do not hallucinate. Use null for anything not mentioned.', messages: [{ role: 'user', content: $json.transcript }] }) }}"
+          }]
+        }
+      },
+      "id": "llm-extract-onboard",
+      "name": "LLM Extract from Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [850, 450]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Load v1 memo (in production: read from Supabase/storage by account_id)\n// For n8n local: read from file system\nconst fs = require('fs');\nconst accountId = $('Normalize Onboarding Input').first().json.account_id;\nconst v1Path = `/tmp/clara/${accountId}/v1/account_memo.json`;\n\nlet v1Memo = {};\ntry {\n  v1Memo = JSON.parse(fs.readFileSync(v1Path, 'utf8'));\n} catch(e) {\n  throw new Error(`No v1 memo found for ${accountId}. Run Pipeline A first.`);\n}\n\n// Get patch data (from form or LLM)\nconst patchData = $input.first().json;\n\n// Smart merge: patch wins, null doesn't overwrite\nfunction smartMerge(base, patch) {\n  const result = JSON.parse(JSON.stringify(base));\n  for (const [key, val] of Object.entries(patch)) {\n    if (val === null || val === undefined) continue;\n    if (typeof val === 'object' && !Array.isArray(val) && typeof result[key] === 'object') {\n      result[key] = smartMerge(result[key] || {}, val);\n    } else if (Array.isArray(val) && val.length > 0) {\n      result[key] = val;\n    } else if (!Array.isArray(val)) {\n      result[key] = val;\n    }\n  }\n  return result;\n}\n\nconst v2Memo = smartMerge(v1Memo, patchData);\nv2Memo.version = 'v2';\nv2Memo.updated_at = new Date().toISOString();\n\n// Build changelog\nconst changes = [];\nfor (const key of Object.keys(patchData)) {\n  if (JSON.stringify(v1Memo[key]) !== JSON.stringify(v2Memo[key])) {\n    changes.push({ field: key, old: v1Memo[key], new: v2Memo[key] });\n  }\n}\n\nconst changelog = {\n  account_id: accountId,\n  from_version: 'v1',\n  to_version: 'v2',\n  applied_at: new Date().toISOString(),\n  changes\n};\n\nreturn [{ json: { v1_memo: v1Memo, v2_memo: v2Memo, changelog } }];"
+      },
+      "id": "apply-patch",
+      "name": "Apply Patch & Build v2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, account_id: $json.v2_memo.account_id, version: 'v2', changes_count: $json.changelog.changes.length }) }}"
+      },
+      "id": "respond-b",
+      "name": "Respond Pipeline B",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Onboarding Input": { "main": [[{ "node": "Normalize Onboarding Input", "type": "main", "index": 0 }]] },
+    "Normalize Onboarding Input": { "main": [[{ "node": "Form or Transcript?", "type": "main", "index": 0 }]] },
+    "Form or Transcript?": {
+      "main": [
+        [{ "node": "Apply Patch & Build v2", "type": "main", "index": 0 }],
+        [{ "node": "LLM Extract from Transcript", "type": "main", "index": 0 }]
+      ]
+    },
+    "LLM Extract from Transcript": { "main": [[{ "node": "Apply Patch & Build v2", "type": "main", "index": 0 }]] },
+    "Apply Patch & Build v2": { "main": [[{ "node": "Respond Pipeline B", "type": "main", "index": 0 }]] }
+  },
+  "meta": {
+    "description": "Clara Pipeline B: Onboarding Input -> v2 Account Memo + Agent Spec + Changelog"
+  }
+}

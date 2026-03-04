@@ -1,0 +1,138 @@
+{
+  "name": "Clara Pipeline - Demo to Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "clara/demo-call",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-demo",
+      "name": "Webhook - Demo Call Input",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "clara-demo-webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize incoming data\n// Accepts: { account_id, transcript } or { account_id, transcript_path }\nconst body = $input.first().json.body || $input.first().json;\nconst accountId = body.account_id || `acct_${Date.now()}`;\nconst transcript = body.transcript || '';\n\nif (!transcript) {\n  throw new Error('transcript field is required');\n}\n\nreturn [{ json: { account_id: accountId, transcript, stage: 'pipeline_a' } }];"
+      },
+      "id": "normalize-demo",
+      "name": "Normalize Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "x-api-key", "value": "={{ $env.ANTHROPIC_API_KEY }}" },
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "=",
+              "value": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, system: 'You are a configuration extraction assistant for Clara Answers. Extract structured operational data from call transcripts. Return ONLY valid JSON with these fields: company_name, business_hours (days, start HH:MM, end HH:MM, timezone IANA), office_address, services_supported, emergency_definition, emergency_routing_rules (primary_contact, order, fallback, timeout_seconds), non_emergency_routing_rules, call_transfer_rules, integration_constraints, after_hours_flow_summary, office_hours_flow_summary, questions_or_unknowns (only truly missing info), notes. Never hallucinate. Leave null if not mentioned.', messages: [{ role: 'user', content: 'Extract from: ' + $json.transcript }] }) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "llm-extract",
+      "name": "LLM Extraction (Claude API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\nconst accountId = $('Normalize Input').first().json.account_id;\nconst content = response.content[0].text;\n\n// Strip markdown fences\nconst clean = content.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\nlet extracted;\ntry {\n  extracted = JSON.parse(clean);\n} catch (e) {\n  extracted = { parse_error: e.message, raw: clean };\n}\n\n// Build full memo\nconst memo = {\n  account_id: accountId,\n  version: 'v1',\n  created_at: new Date().toISOString(),\n  updated_at: new Date().toISOString(),\n  _pipeline: 'demo_call',\n  ...extracted\n};\n\nreturn [{ json: memo }];"
+      },
+      "id": "build-memo",
+      "name": "Build Account Memo v1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const memo = $input.first().json;\nconst company = memo.company_name || 'Clara Client';\nconst bh = memo.business_hours || {};\nconst days = (bh.days || []).join(', ') || 'Monday through Friday';\nconst start = bh.start || '08:00';\nconst end = bh.end || '17:00';\nconst tz = bh.timezone || 'local time';\nconst hoursStr = `${days}, ${start}–${end} ${tz}`;\nconst emergencyList = (memo.emergency_definition || ['active fire system event']).join(', ');\nconst routing = memo.emergency_routing_rules || {};\nconst primary = routing.primary_contact || '[ON-CALL NUMBER]';\nconst timeout = routing.timeout_seconds || 60;\nconst constraints = (memo.integration_constraints || []).map(c => `- ${c}`).join('\\n');\n\nconst systemPrompt = `You are Clara, a professional AI voice assistant for ${company}.\n\nBUSINESS HOURS: ${hoursStr}\nSERVICES: ${(memo.services_supported || []).join(', ')}\n\nDURING HOURS FLOW:\n1. Greet: \"Thank you for calling ${company}. This is Clara. How can I help you?\"\n2. Understand purpose - classify as emergency or non-emergency\n3. Collect name and callback number\n4. Transfer to appropriate team. Say: \"Let me connect you. Please hold.\"\n5. If transfer fails after ${timeout}s: apologize and confirm callback within 30 minutes\n6. Ask if anything else needed. Close warmly.\n\nAFTER HOURS FLOW:\n1. Greet and state hours: \"You've reached ${company}. We're outside business hours (${hoursStr}). This is Clara.\"\n2. Ask purpose. Confirm if emergency.\n3. EMERGENCY TRIGGERS: ${emergencyList}\n4. IF EMERGENCY: Collect name, number, address immediately. Attempt transfer to: ${primary}\n   - Timeout: ${timeout}s then escalate per routing rules\n   - If all fail: \"Your information is logged as emergency. A technician calls back within 15 min. If life-threatening, call 911.\"\n5. IF NON-EMERGENCY: Collect name, number, issue. Confirm next-business-day followup.\n6. Ask if anything else. Close warmly.\n\nRULES:\n- Never mention function calls, tools, or internal systems to callers\n- Never say \"your call is important to us\"\n- Always collect: name + phone for any routing action\n- For emergencies also collect: address/location\n${constraints ? '\\nSYSTEM CONSTRAINTS (internal only):\\n' + constraints : ''}`;\n\nconst spec = {\n  agent_name: `${company} - Clara Agent`,\n  version: 'v1',\n  generated_at: new Date().toISOString(),\n  source_account_id: memo.account_id,\n  voice_style: { voice_id: 'elevenlabs-rachel', speed: 1.0 },\n  system_prompt: systemPrompt,\n  key_variables: {\n    timezone: bh.timezone,\n    business_hours_start: bh.start,\n    business_hours_end: bh.end,\n    business_days: bh.days,\n    emergency_routing_primary: primary,\n    transfer_timeout_seconds: timeout\n  },\n  call_transfer_protocol: {\n    method: 'warm_transfer',\n    announce_script: 'Let me connect you with the right person. Please hold.',\n    timeout_seconds: timeout\n  },\n  fallback_protocol: {\n    trigger: 'transfer_fails',\n    script: 'I was unable to reach the on-call team. Your information has been logged and someone will call you back within 15 minutes.'\n  },\n  integration_constraints: memo.integration_constraints || [],\n  questions_or_unknowns: memo.questions_or_unknowns || []\n};\n\nreturn [{ json: { memo, spec } }];"
+      },
+      "id": "build-spec",
+      "name": "Generate Agent Spec v1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/tmp/clara/{{ $json.memo.account_id }}/v1/account_memo.json",
+        "dataPropertyName": "={{ JSON.stringify($json.memo, null, 2) }}"
+      },
+      "id": "save-memo-v1",
+      "name": "Save Memo v1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1250, 200],
+      "notes": "Saves to local file system. In production, replace with Supabase or S3 node."
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/tmp/clara/{{ $json.memo.account_id }}/v1/agent_spec.json",
+        "dataPropertyName": "={{ JSON.stringify($json.spec, null, 2) }}"
+      },
+      "id": "save-spec-v1",
+      "name": "Save Spec v1",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1250, 400],
+      "notes": "Saves agent spec. In production, also POST to Retell API."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, account_id: $('Build Account Memo v1').first().json.account_id, version: 'v1', unknowns: $('Build Account Memo v1').first().json.questions_or_unknowns || [] }) }}"
+      },
+      "id": "respond-a",
+      "name": "Respond Pipeline A",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Demo Call Input": { "main": [[{ "node": "Normalize Input", "type": "main", "index": 0 }]] },
+    "Normalize Input": { "main": [[{ "node": "LLM Extraction (Claude API)", "type": "main", "index": 0 }]] },
+    "LLM Extraction (Claude API)": { "main": [[{ "node": "Build Account Memo v1", "type": "main", "index": 0 }]] },
+    "Build Account Memo v1": { "main": [[{ "node": "Generate Agent Spec v1", "type": "main", "index": 0 }]] },
+    "Generate Agent Spec v1": {
+      "main": [[
+        { "node": "Save Memo v1", "type": "main", "index": 0 },
+        { "node": "Save Spec v1", "type": "main", "index": 0 },
+        { "node": "Respond Pipeline A", "type": "main", "index": 0 }
+      ]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": ""
+  },
+  "meta": {
+    "description": "Clara Pipeline A: Demo Call Transcript -> v1 Account Memo + Agent Spec",
+    "version": "1.0.0"
+  }
+}
