@@ -1,0 +1,23 @@
+Clara Sales Demo Call Transcript
+Account: acct_004
+Date: 2025-02-17
+
+[SALES REP]: Tell me about your company.
+
+[CLIENT - DIANE]: We're Midwest HVAC Solutions. Commercial HVAC for the Chicago area. We handle everything from office buildings to cold storage facilities. The cold storage is the critical part.
+
+[SALES REP]: Why critical?
+
+[DIANE]: If a refrigeration system fails in a cold storage facility, they can lose millions in product within hours. Those calls at 2 AM need to get to our on-call engineer immediately. There's no "leave a message" option.
+
+[SALES REP]: So that's your emergency definition?
+
+[DIANE]: Cold storage or food storage HVAC failure - immediate emergency. Complete heating failure in winter - emergency if it's a hospital or care facility. Otherwise next-day. A/C failure in summer - depends on the building type. We'd need to talk through the logic.
+
+[SALES REP]: Business hours?
+
+[DIANE]: Monday through Friday, 7:30 AM to 4:30 PM Central. We're Chicago-based.
+
+[SALES REP]: Any integrations?
+
+[DIANE]: We use our own dispatch software, not ServiceTrade. I don't think you integrate with it. For now we just need Clara to collect info and alert the on-call. We'll handle the system entry manually.

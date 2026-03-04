@@ -1,0 +1,27 @@
+Clara Onboarding Call Transcript
+Account: acct_003 - Guardian Alarm Systems
+Date: 2025-03-06
+
+[SPECIALIST]: Confirming hours - Monday through Friday, 8 AM to 5 PM Pacific?
+
+[CARLOS]: Correct. Pacific Standard Time.
+
+[SPECIALIST]: Address?
+
+[CARLOS]: 3252 Holiday Court, Suite 208, La Jolla, CA 92037.
+
+[SPECIALIST]: On-call routing?
+
+[CARLOS]: Primary on-call: 619-555-0173. Secondary: 619-555-0191. Timeout is 90 seconds before going to secondary. If both fail, log as emergency and send SMS to our manager at 619-555-0200.
+
+[SPECIALIST]: That compliance logging requirement you mentioned - every call needs a timestamp?
+
+[CARLOS]: Yes. Every call must be logged with: time received, caller name, caller number, location of alarm, type of alarm, and disposition. This is a UL requirement for our certification. Non-negotiable.
+
+[SPECIALIST]: System integration?
+
+[CARLOS]: We use our own proprietary monitoring software. Clara should not attempt to interact with it. Just collect data and route.
+
+[SPECIALIST]: Anything about the alarm system offline scenario?
+
+[CARLOS]: Yes - if a caller says their entire alarm panel is showing offline or dark, treat that as an emergency even if no alarm is triggered. That leaves the facility completely unprotected.

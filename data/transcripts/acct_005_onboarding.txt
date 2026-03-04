@@ -1,0 +1,27 @@
+Clara Onboarding Call Transcript
+Account: acct_005 - National Suppression Group
+Date: 2025-03-08
+
+[SPECIALIST]: Confirming hours - 8 AM to 6 PM Eastern, Monday through Friday?
+
+[ROBERT]: That's correct. Eastern Time.
+
+[SPECIALIST]: Office address?
+
+[ROBERT]: 1875 Connecticut Ave NW, Suite 650, Washington, DC 20009.
+
+[SPECIALIST]: Emergency routing - you mentioned 3-minute SLA. What are the numbers?
+
+[ROBERT]: Regional on-call manager East: 202-555-0156. Regional on-call manager West: 202-555-0167. When a call comes in, determine region by the caller's area code if possible. If unclear, try East first. Timeout: 45 seconds. If both fail, transfer to our national emergency line: 1-800-555-0199.
+
+[SPECIALIST]: Salesforce constraint was never create records - can you clarify?
+
+[ROBERT]: Never create, modify, or delete any record in Salesforce. Clara should not have any Salesforce integration. All CRM activity is handled by our operations team manually after they receive the alert. This is also a data security requirement - our government clients require strict data handling protocols.
+
+[SPECIALIST]: Any language requirements for the agent?
+
+[ROBERT]: Always identify as "National Suppression Group Emergency Line" when answering after hours. During business hours, just "National Suppression Group." Never mention SLA timelines to callers. Never say "I'll do my best" - say "this is our commitment."
+
+[SPECIALIST]: Transfer fail protocol?
+
+[ROBERT]: If all transfer attempts fail, tell the caller: "A senior technician has been alerted and will contact you within 15 minutes. This is our commitment." Then immediately send an SMS alert to all three regional managers.

@@ -1,0 +1,23 @@
+Clara Onboarding Call Transcript
+Account: acct_004 - Midwest HVAC Solutions
+Date: 2025-03-07
+
+[SPECIALIST]: Hours were 7:30 AM to 4:30 PM Central, Monday through Friday?
+
+[DIANE]: Correct. 7:30 to 4:30, Central Time. Chicago.
+
+[SPECIALIST]: Address?
+
+[DIANE]: 2340 S River Rd, Des Plaines, IL 60018.
+
+[SPECIALIST]: Emergency on-call routing?
+
+[DIANE]: 312-555-0163 is our primary dispatch. If no answer in 60 seconds, go to 312-555-0177. If that fails, the caller should be told a technician will call back within 15 minutes and we send an alert to our on-call manager via text.
+
+[SPECIALIST]: You mentioned the emergency logic for A/C failure was complex. Can we nail that down?
+
+[DIANE]: Okay. Cold storage or food storage HVAC failure: always emergency, any time, any day. Complete heat failure: emergency if it's a hospital, nursing home, or school. Otherwise schedule next business day. A/C failure: emergency only if it's a medical facility or server room and it's above 85 degrees outside. Otherwise non-emergency.
+
+[SPECIALIST]: Got it. Any system integration rules?
+
+[DIANE]: Do not create records in any external system. We handle all data entry internally. Clara's job is collect and route only.

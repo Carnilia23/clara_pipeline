@@ -1,0 +1,23 @@
+Clara Onboarding Call Transcript
+Account: acct_002 - Apex Electrical Services
+Date: 2025-03-05
+
+[SPECIALIST]: Let's confirm your details. Business hours were 8 AM to 6 PM Central, Monday through Friday?
+
+[JENNIFER]: Correct. 8 AM to 6 PM Central Time. Monday through Friday.
+
+[SPECIALIST]: Office address?
+
+[JENNIFER]: 1200 Travis Street, Suite 1800, Houston, TX 77002.
+
+[SPECIALIST]: Emergency routing numbers?
+
+[JENNIFER]: On-call primary is 713-555-0144. Backup is 713-555-0188. If both fail, caller should be told to call 911 if life-threatening and expect our callback within 20 minutes.
+
+[SPECIALIST]: ServiceTrade constraints?
+
+[JENNIFER]: Never auto-create jobs for any electrical fire related calls. For power outages at hospitals or medical facilities, flag as Priority 1 before creating any record. All other non-emergency service requests can be logged normally.
+
+[SPECIALIST]: Transfer timeout?
+
+[JENNIFER]: 45 seconds before escalating. Our guys are usually on the road so they need a moment to answer.

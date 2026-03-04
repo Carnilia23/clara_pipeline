@@ -1,0 +1,42 @@
+Clara Onboarding Call Transcript
+Account: acct_001 - Patriot Fire Protection
+Date: 2025-02-28
+Present: Mike (Operations), Sarah (Admin), Clara Onboarding Specialist
+
+[SPECIALIST]: Great, let's lock down the specifics. Mike, you mentioned your hours during the demo - Monday through Friday, 7 AM to 5 PM Eastern, right?
+
+[MIKE]: Yes, that's correct. 7:00 AM to 5:00 PM, Eastern Standard Time. Monday through Friday only. Saturday and Sunday we're closed.
+
+[SPECIALIST]: Perfect. And your office address?
+
+[SARAH]: It's 4821 Peachtree Industrial Blvd, Suite 200, Atlanta, Georgia 30341.
+
+[SPECIALIST]: Got it. Now for emergency routing - you said you were still figuring out the phone tree. Can we nail that down?
+
+[MIKE]: Yeah. So the primary on-call number is 404-555-0182. That's our dispatch line. If there's no answer within 45 seconds, it should roll to our on-call supervisor cell, which is 404-555-0219. If that fails too, then we want Clara to tell the caller that a technician will call them back within 10 minutes, and we get an email notification to our emergency inbox.
+
+[SPECIALIST]: Perfect. And what's that emergency email?
+
+[MIKE]: dispatch-emergency@patriotfire.com
+
+[SPECIALIST]: And just to confirm the emergency triggers - what exactly should Clara treat as an emergency?
+
+[MIKE]: Active sprinkler flow or leak, fire alarm activation, suppression system discharge, smoke detection alert, active fire situation, or if someone says there's flooding from a fire system.
+
+[SPECIALIST]: Great. Now about ServiceTrade - you had some concerns during the demo?
+
+[MIKE]: Right. So the rule is: never automatically create a job in ServiceTrade for sprinkler-related calls. A human has to review those. For fire alarm calls or extinguisher service, that's fine, Clara can note it. But sprinkler jobs, never.
+
+[SARAH]: Also, any inspection calls that come in after hours, we do want those logged in ServiceTrade as pending, that's fine.
+
+[SPECIALIST]: Noted. What should Clara do if a transfer fails during business hours?
+
+[MIKE]: Tell them we're experiencing technical difficulties and give them our direct line, which is 404-555-0100. And to expect a callback within 30 minutes.
+
+[SPECIALIST]: Any other specific language you want Clara to use? Anything to avoid?
+
+[SARAH]: Don't say "your call is important to us" - our owner hates that phrase. And don't call it a "ticket" - we say "service request."
+
+[SPECIALIST]: Understood. I think we have everything we need. Any final questions?
+
+[MIKE]: Just make sure the after-hours emergency flow is fast. If someone has a sprinkler flowing, every second counts.

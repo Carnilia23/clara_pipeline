@@ -1,0 +1,27 @@
+Clara Sales Demo Call Transcript
+Account: acct_005
+Date: 2025-02-18
+
+[SALES REP]: Thanks for joining. What does your company do?
+
+[CLIENT - ROBERT]: National Suppression Group. We do fire suppression systems for data centers and server rooms. Very specialized - clean agent systems, CO2, FM-200, Novec. Our clients are Fortune 500 companies, government facilities, financial institutions.
+
+[SALES REP]: High stakes clients. What's the call handling problem?
+
+[ROBERT]: Our clients have SLA requirements. If a suppression system discharges in a data center, we need to be there within 4 hours. Our clients have it in their contracts. Right now we're missing calls because people can't get through after hours. It's a liability issue.
+
+[SALES REP]: Emergency definition?
+
+[ROBERT]: Suppression system discharge - always an emergency. Suppression system fault or trouble - always an emergency. Pre-action system activation - emergency. Anything that involves a live data center at risk.
+
+[SALES REP]: Routing requirements?
+
+[ROBERT]: We have regional on-call managers. Call has to reach a human within 3 minutes or we're in breach of SLA. I need to discuss the exact numbers with my ops team but that's the requirement.
+
+[SALES REP]: Business hours?
+
+[ROBERT]: Our admin team is Eastern time. 8 AM to 6 PM, Monday through Friday. But our on-call coverage is 24/7.
+
+[SALES REP]: Any integration or system constraints?
+
+[ROBERT]: Everything is documented in Salesforce. Clara should never create records in Salesforce - our system has very specific record formats our ops team manages. Just collect info and route.

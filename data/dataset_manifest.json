@@ -1,0 +1,40 @@
+{
+  "description": "Clara Pipeline Dataset - 5 accounts with demo + onboarding pairs",
+  "accounts": [
+    {
+      "account_id": "acct_001",
+      "company_name": "Patriot Fire Protection",
+      "demo_transcript": "data/transcripts/acct_001_demo.txt",
+      "onboarding_input": "data/transcripts/acct_001_onboarding.txt",
+      "onboarding_source": "onboarding_call"
+    },
+    {
+      "account_id": "acct_002",
+      "company_name": "Apex Electrical Services",
+      "demo_transcript": "data/transcripts/acct_002_demo.txt",
+      "onboarding_input": "data/transcripts/acct_002_onboarding.txt",
+      "onboarding_source": "onboarding_call"
+    },
+    {
+      "account_id": "acct_003",
+      "company_name": "Guardian Alarm Systems",
+      "demo_transcript": "data/transcripts/acct_003_demo.txt",
+      "onboarding_input": "data/transcripts/acct_003_onboarding.txt",
+      "onboarding_source": "onboarding_call"
+    },
+    {
+      "account_id": "acct_004",
+      "company_name": "Midwest HVAC Solutions",
+      "demo_transcript": "data/transcripts/acct_004_demo.txt",
+      "onboarding_input": "data/transcripts/acct_004_onboarding.txt",
+      "onboarding_source": "onboarding_call"
+    },
+    {
+      "account_id": "acct_005",
+      "company_name": "National Suppression Group",
+      "demo_transcript": "data/transcripts/acct_005_demo.txt",
+      "onboarding_input": "data/transcripts/acct_005_onboarding.txt",
+      "onboarding_source": "onboarding_call"
+    }
+  ]
+}
