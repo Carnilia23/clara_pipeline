@@ -1,0 +1,74 @@
+2026-03-03 17:16:34,834 [INFO] [Pipeline A] Starting for account: acct_001
+2026-03-03 17:16:34,835 [INFO] [Pipeline A] Transcript loaded (2640 chars)
+2026-03-03 17:16:34,839 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1\account_memo.json
+2026-03-03 17:16:34,843 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1\agent_spec.json
+2026-03-03 17:16:34,848 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1
+2026-03-03 17:16:34,848 [WARNING] [Pipeline A] 1 unknowns flagged:
+2026-03-03 17:16:34,849 [WARNING]   ? Emergency contact phone number not provided
+2026-03-03 17:16:34,849 [INFO] [Pipeline B] Starting for account: acct_001
+2026-03-03 17:16:34,864 [INFO] [Pipeline B] v1 memo loaded
+2026-03-03 17:16:34,865 [INFO] [Pipeline B] Input detected as plain transcript
+2026-03-03 17:16:34,869 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v2\account_memo.json
+2026-03-03 17:16:34,871 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v2\agent_spec.json
+2026-03-03 17:16:34,874 [INFO] Saved: C:\Users\iamab\Downloads\files\changelog\acct_001_changes.json
+2026-03-03 17:16:34,876 [ERROR] [Batch] Pipeline B failed for acct_001: 'charmap' codec can't encode character '\u2192' in position 44: character maps to <undefined>
+2026-03-03 17:16:34,876 [INFO] [Pipeline A] Starting for account: acct_002
+2026-03-03 17:16:34,877 [INFO] [Pipeline A] Transcript loaded (1471 chars)
+2026-03-03 17:16:34,880 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_002\v1\account_memo.json
+2026-03-03 17:16:34,883 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_002\v1\agent_spec.json
+2026-03-03 17:16:34,887 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_002\v1
+2026-03-03 17:16:34,887 [WARNING] [Pipeline A] 2 unknowns flagged:
+2026-03-03 17:16:34,887 [WARNING]   ? Emergency triggers not defined
+2026-03-03 17:16:34,888 [WARNING]   ? Emergency contact phone number not provided
+2026-03-03 17:16:34,888 [INFO] [Pipeline B] Starting for account: acct_002
+2026-03-03 17:16:34,902 [INFO] [Pipeline B] v1 memo loaded
+2026-03-03 17:16:34,903 [INFO] [Pipeline B] Input detected as plain transcript
+2026-03-03 17:16:34,907 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_002\v2\account_memo.json
+2026-03-03 17:16:34,910 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_002\v2\agent_spec.json
+2026-03-03 17:16:34,912 [INFO] Saved: C:\Users\iamab\Downloads\files\changelog\acct_002_changes.json
+2026-03-03 17:16:34,915 [ERROR] [Batch] Pipeline B failed for acct_002: 'charmap' codec can't encode character '\u2192' in position 44: character maps to <undefined>
+2026-03-03 17:16:34,915 [INFO] [Pipeline A] Starting for account: acct_003
+2026-03-03 17:16:34,916 [INFO] [Pipeline A] Transcript loaded (1489 chars)
+2026-03-03 17:16:34,919 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_003\v1\account_memo.json
+2026-03-03 17:16:34,922 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_003\v1\agent_spec.json
+2026-03-03 17:16:34,926 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_003\v1
+2026-03-03 17:16:34,927 [WARNING] [Pipeline A] 1 unknowns flagged:
+2026-03-03 17:16:34,927 [WARNING]   ? Emergency contact phone number not provided
+2026-03-03 17:16:34,928 [INFO] [Pipeline B] Starting for account: acct_003
+2026-03-03 17:16:34,941 [INFO] [Pipeline B] v1 memo loaded
+2026-03-03 17:16:34,942 [INFO] [Pipeline B] Input detected as plain transcript
+2026-03-03 17:16:34,946 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_003\v2\account_memo.json
+2026-03-03 17:16:34,948 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_003\v2\agent_spec.json
+2026-03-03 17:16:34,950 [INFO] Saved: C:\Users\iamab\Downloads\files\changelog\acct_003_changes.json
+2026-03-03 17:16:34,953 [ERROR] [Batch] Pipeline B failed for acct_003: 'charmap' codec can't encode character '\u2192' in position 44: character maps to <undefined>
+2026-03-03 17:16:34,954 [INFO] [Pipeline A] Starting for account: acct_004
+2026-03-03 17:16:34,955 [INFO] [Pipeline A] Transcript loaded (1229 chars)
+2026-03-03 17:16:34,958 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_004\v1\account_memo.json
+2026-03-03 17:16:34,961 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_004\v1\agent_spec.json
+2026-03-03 17:16:34,965 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_004\v1
+2026-03-03 17:16:34,966 [WARNING] [Pipeline A] 2 unknowns flagged:
+2026-03-03 17:16:34,966 [WARNING]   ? Emergency triggers not defined
+2026-03-03 17:16:34,966 [WARNING]   ? Emergency contact phone number not provided
+2026-03-03 17:16:34,966 [INFO] [Pipeline B] Starting for account: acct_004
+2026-03-03 17:16:34,979 [INFO] [Pipeline B] v1 memo loaded
+2026-03-03 17:16:34,979 [INFO] [Pipeline B] Input detected as plain transcript
+2026-03-03 17:16:34,983 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_004\v2\account_memo.json
+2026-03-03 17:16:34,985 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_004\v2\agent_spec.json
+2026-03-03 17:16:34,988 [INFO] Saved: C:\Users\iamab\Downloads\files\changelog\acct_004_changes.json
+2026-03-03 17:16:34,989 [ERROR] [Batch] Pipeline B failed for acct_004: 'charmap' codec can't encode character '\u2192' in position 44: character maps to <undefined>
+2026-03-03 17:16:34,990 [INFO] [Pipeline A] Starting for account: acct_005
+2026-03-03 17:16:34,991 [INFO] [Pipeline A] Transcript loaded (1610 chars)
+2026-03-03 17:16:34,995 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_005\v1\account_memo.json
+2026-03-03 17:16:34,998 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_005\v1\agent_spec.json
+2026-03-03 17:16:35,002 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_005\v1
+2026-03-03 17:16:35,002 [WARNING] [Pipeline A] 1 unknowns flagged:
+2026-03-03 17:16:35,003 [WARNING]   ? Emergency contact phone number not provided
+2026-03-03 17:16:35,003 [INFO] [Pipeline B] Starting for account: acct_005
+2026-03-03 17:16:35,017 [INFO] [Pipeline B] v1 memo loaded
+2026-03-03 17:16:35,017 [INFO] [Pipeline B] Input detected as plain transcript
+2026-03-03 17:16:35,021 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_005\v2\account_memo.json
+2026-03-03 17:16:35,024 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_005\v2\agent_spec.json
+2026-03-03 17:16:35,026 [INFO] Saved: C:\Users\iamab\Downloads\files\changelog\acct_005_changes.json
+2026-03-03 17:16:35,029 [ERROR] [Batch] Pipeline B failed for acct_005: 'charmap' codec can't encode character '\u2192' in position 44: character maps to <undefined>
+2026-03-03 17:16:35,096 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\logs\batch_summary.json
+2026-03-03 17:16:35,096 [INFO] [Batch] Complete. 5 accounts processed.

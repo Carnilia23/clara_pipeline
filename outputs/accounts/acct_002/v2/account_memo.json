@@ -1,0 +1,56 @@
+{
+  "account_id": "acct_002",
+  "company_name": "Apex Electrical Services",
+  "version": "v2",
+  "created_at": "2026-03-03T11:52:05.756084Z",
+  "updated_at": "2026-03-03T11:52:05.756386Z",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:00",
+    "end": "18:00",
+    "timezone": "America/Chicago"
+  },
+  "office_address": "1200 Travis Street, Suite 1800, Houston, TX 77002",
+  "services_supported": [
+    "electrical"
+  ],
+  "emergency_definition": [],
+  "emergency_routing_rules": {
+    "primary_contact": "713-555-0144",
+    "phone_tree": null,
+    "order": [
+      "713-555-0144",
+      "713-555-0188"
+    ],
+    "fallback": null,
+    "timeout_seconds": null
+  },
+  "non_emergency_routing_rules": {
+    "during_hours": null,
+    "after_hours": null,
+    "collect_details": true
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail_message": null
+  },
+  "integration_constraints": [
+    "Never auto-create ServiceTrade jobs for electrical fire calls - supervisor approval required",
+    "Flag hospital or medical power outages as Priority 1 before any record creation"
+  ],
+  "after_hours_flow_summary": "Greet caller, state business hours, confirm if emergency. If emergency: collect name, number, address, attempt transfer to on-call. If transfer fails, assure 15-min callback. If non-emergency: collect details, confirm next-business-day followup.",
+  "office_hours_flow_summary": "Greet caller, identify purpose, collect name and callback number, transfer to appropriate team during 08:00\u201318:00 America/Chicago. If transfer fails, confirm 30-min callback.",
+  "questions_or_unknowns": [
+    "Emergency triggers not defined"
+  ],
+  "notes": "",
+  "_pipeline": "demo_call",
+  "_source_file": "data/transcripts/acct_002_demo.txt"
+}

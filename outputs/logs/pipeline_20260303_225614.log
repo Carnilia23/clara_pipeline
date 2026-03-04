@@ -1,0 +1,7 @@
+2026-03-03 22:56:14,304 [INFO] [Pipeline A] Starting for account: acct_001
+2026-03-03 22:56:14,306 [INFO] [Pipeline A] Transcript loaded (2640 chars)
+2026-03-03 22:56:14,308 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1\account_memo.json
+2026-03-03 22:56:14,311 [INFO] Saved: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1\agent_spec.json
+2026-03-03 22:56:14,317 [INFO] [Pipeline A] Complete. Output: C:\Users\iamab\Downloads\files\outputs\accounts\acct_001\v1
+2026-03-03 22:56:14,317 [WARNING] [Pipeline A] 1 unknowns flagged:
+2026-03-03 22:56:14,318 [WARNING]   ? Emergency contact phone number not provided

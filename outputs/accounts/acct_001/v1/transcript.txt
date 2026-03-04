@@ -1,0 +1,37 @@
+Clara Sales Demo Call Transcript
+Account: acct_001
+Date: 2025-02-14
+
+[SALES REP]: Hi, thanks for joining today's demo. Can you tell me a bit about your business?
+
+[CLIENT - MIKE]: Sure. So we're Patriot Fire Protection. We've been doing fire suppression and sprinkler systems in the Atlanta area for about 15 years. We handle a lot of commercial clients, hospitals, warehouses, that kind of thing.
+
+[SALES REP]: Great. And what's your current situation with inbound calls?
+
+[MIKE]: It's a mess, honestly. We're a 24/7 operation. Sprinkler emergencies don't care what time it is. Right now we have an answering service but they're terrible. They can't tell the difference between someone calling about a routine inspection and someone calling because a sprinkler head just popped in a hospital server room. We've had situations where actual emergencies didn't get routed for 40 minutes.
+
+[SALES REP]: That's a serious problem. What counts as an emergency for your team?
+
+[MIKE]: If a sprinkler is actively flowing, that's an emergency. If a fire alarm is going off, that's an emergency. Fire suppression discharge - like a CO2 system - that's an emergency. Basically anything that's actively happening right now and could damage property or hurt someone.
+
+[SALES REP]: Got it. And when an emergency comes in, what's your ideal routing?
+
+[MIKE]: We have a phone tree. Usually it goes to our on-call tech first. If they don't pick up within a minute, it goes to the on-call supervisor. We're still figuring out the exact numbers for that, I'd have to confirm with our operations team.
+
+[SALES REP]: That makes sense. What about non-emergencies after hours?
+
+[MIKE]: Those we just want to collect the information and call them back next business day. We don't need to wake anyone up for an inspection question.
+
+[SALES REP]: How about your business hours?
+
+[MIKE]: We're in the office Monday through Friday, 7 AM to 5 PM Eastern. That's when the admin team is here.
+
+[SALES REP]: And you mentioned ServiceTrade - are you using that for your service management?
+
+[MIKE]: Yeah. But here's the thing - we had some problems with duplicate jobs being created when calls came in. So we're very careful about not automatically creating jobs in ServiceTrade without a tech reviewing it first. Especially not for sprinkler work, there's liability stuff.
+
+[SALES REP]: Understood. Any other constraints we should know?
+
+[MIKE]: Not that I can think of right now. We'd need to go through everything properly during setup. This is more just to see if Clara could work for us.
+
+[SALES REP]: Absolutely. Let me show you how Clara handles an incoming call...

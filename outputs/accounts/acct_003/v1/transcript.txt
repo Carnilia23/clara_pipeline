@@ -1,0 +1,27 @@
+Clara Sales Demo Call Transcript
+Account: acct_003
+Date: 2025-02-16
+
+[SALES REP]: Great to meet you. What does your company do?
+
+[CLIENT - CARLOS]: Guardian Alarm Systems. We install and monitor commercial fire alarms across Southern California. Based in San Diego. About 12 years in business.
+
+[SALES REP]: What's the pain point that brought you to Clara?
+
+[CARLOS]: After-hours calls. We have clients whose alarm systems trigger at 2 AM and they're panicking. Our current answering service reads from a script and doesn't understand urgency. We've had clients wait 20 minutes just to get a callback number.
+
+[SALES REP]: What's your emergency definition?
+
+[CARLOS]: Fire alarm in active alert, smoke detected, CO alarm going off, alarm system malfunction that leaves a facility unprotected. That last one is tricky - if their alarm system goes completely offline, that's an emergency even if nothing is on fire.
+
+[SALES REP]: Business hours?
+
+[CARLOS]: We're open Monday through Friday, 8 AM to 5 PM Pacific. But most of our emergency calls come after hours or on weekends.
+
+[SALES REP]: Emergency routing?
+
+[CARLOS]: We have a pager system tied to on-call tech. I'd need to give you those details during setup. Usually we want them paged and then called if no response in 90 seconds.
+
+[SALES REP]: Any special constraints?
+
+[CARLOS]: We have some clients with UL-listed systems where every call has to be logged with a timestamp and disposition. That's a compliance requirement for us.

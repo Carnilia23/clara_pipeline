@@ -1,0 +1,27 @@
+Clara Sales Demo Call Transcript
+Account: acct_002
+Date: 2025-02-15
+
+[SALES REP]: Thanks for your time. Tell me about your operation.
+
+[CLIENT - JENNIFER]: We're Apex Electrical Services. Commercial electrical contractors in Houston. We do everything from panel upgrades to emergency power failures. About 30 field technicians.
+
+[SALES REP]: What's the call handling issue right now?
+
+[JENNIFER]: We get a ton of calls. Some are real emergencies - power outages in hospitals, electrical fires, equipment failures that shut down factories. Others are just "I need an outlet installed." Our receptionist can't always tell the difference and it causes us to miss real emergencies.
+
+[SALES REP]: What defines an emergency for you?
+
+[JENNIFER]: Complete power loss at a commercial facility, electrical fire or burning smell, equipment failure that's dangerous, anything with arc flash risk. Those need someone on the phone immediately.
+
+[SALES REP]: And your hours?
+
+[JENNIFER]: Office is open Monday through Friday, 8 AM to 6 PM, Central Time. We're in Houston so Central.
+
+[SALES REP]: After hours emergency routing?
+
+[JENNIFER]: We have two on-call electricians. I don't have their numbers handy but we'd provide them during setup.
+
+[SALES REP]: Any integration systems?
+
+[JENNIFER]: We use ServiceTrade too actually. We're fine with jobs being created automatically for non-emergency stuff, but for anything electrical-fire-related, we want a supervisor to approve first.

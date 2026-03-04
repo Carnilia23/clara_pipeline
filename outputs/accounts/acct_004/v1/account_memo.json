@@ -1,0 +1,53 @@
+{
+  "account_id": "acct_004",
+  "company_name": "Midwest HVAC Solutions",
+  "version": "v1",
+  "created_at": "2026-03-03T11:52:05.803322Z",
+  "updated_at": "2026-03-03T11:52:05.803337Z",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "02:00",
+    "end": "07:30",
+    "timezone": "America/Chicago"
+  },
+  "office_address": null,
+  "services_supported": [
+    "hvac"
+  ],
+  "emergency_definition": [],
+  "emergency_routing_rules": {
+    "primary_contact": null,
+    "phone_tree": null,
+    "order": [],
+    "fallback": null,
+    "timeout_seconds": null
+  },
+  "non_emergency_routing_rules": {
+    "during_hours": null,
+    "after_hours": null,
+    "collect_details": true
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail_message": null
+  },
+  "integration_constraints": [
+    "[SALES REP]: Any integrations?\n\n[DIANE]: We use our own dispatch software, not ServiceTrade"
+  ],
+  "after_hours_flow_summary": null,
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "Emergency triggers not defined",
+    "Emergency contact phone number not provided"
+  ],
+  "notes": "",
+  "_pipeline": "demo_call",
+  "_source_file": "data/transcripts/acct_004_demo.txt"
+}

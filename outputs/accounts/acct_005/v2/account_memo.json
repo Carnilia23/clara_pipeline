@@ -1,0 +1,59 @@
+{
+  "account_id": "acct_005",
+  "company_name": "National Suppression Group",
+  "version": "v2",
+  "created_at": "2026-03-03T11:52:05.869750Z",
+  "updated_at": "2026-03-03T11:52:05.870454Z",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:00",
+    "end": "18:00",
+    "timezone": "America/New_York"
+  },
+  "office_address": "1875 Connecticut Ave NW, Suite 650, Washington, DC 20009",
+  "services_supported": [
+    "suppression"
+  ],
+  "emergency_definition": [
+    "fire suppression"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "202-555-0156",
+    "phone_tree": null,
+    "order": [
+      "202-555-0156",
+      "202-555-0167",
+      "1-800-555-0199"
+    ],
+    "fallback": null,
+    "timeout_seconds": null
+  },
+  "non_emergency_routing_rules": {
+    "during_hours": null,
+    "after_hours": null,
+    "collect_details": true
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail_message": null
+  },
+  "integration_constraints": [
+    "Never create, modify, or delete any record in Salesforce",
+    "No Salesforce integration permitted - government data security requirement"
+  ],
+  "after_hours_flow_summary": "Greet caller, state business hours, confirm if emergency. If emergency: collect name, number, address, attempt transfer to on-call. If transfer fails, assure 15-min callback. If non-emergency: collect details, confirm next-business-day followup.",
+  "office_hours_flow_summary": "Greet caller, identify purpose, collect name and callback number, transfer to appropriate team during 08:00\u201318:00 America/New_York. If transfer fails, confirm 30-min callback.",
+  "questions_or_unknowns": [
+    "Emergency triggers not defined"
+  ],
+  "notes": "",
+  "_pipeline": "demo_call",
+  "_source_file": "data/transcripts/acct_005_demo.txt"
+}

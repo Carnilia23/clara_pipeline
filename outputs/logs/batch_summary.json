@@ -1,0 +1,41 @@
+{
+  "run_at": "2026-03-03T11:52:05.882156Z",
+  "total_accounts": 5,
+  "results": [
+    {
+      "account_id": "acct_001",
+      "status": {
+        "pipeline_a": "success",
+        "pipeline_b": "success"
+      }
+    },
+    {
+      "account_id": "acct_002",
+      "status": {
+        "pipeline_a": "success",
+        "pipeline_b": "success"
+      }
+    },
+    {
+      "account_id": "acct_003",
+      "status": {
+        "pipeline_a": "success",
+        "pipeline_b": "success"
+      }
+    },
+    {
+      "account_id": "acct_004",
+      "status": {
+        "pipeline_a": "success",
+        "pipeline_b": "success"
+      }
+    },
+    {
+      "account_id": "acct_005",
+      "status": {
+        "pipeline_a": "success",
+        "pipeline_b": "success"
+      }
+    }
+  ]
+}

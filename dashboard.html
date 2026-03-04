@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clara Pipeline — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --panel: #111118;
+    --border: #1e1e2e;
+    --accent: #7c6af7;
+    --accent2: #f7c948;
+    --success: #36d399;
+    --warn: #fbbd23;
+    --danger: #f87272;
+    --text: #e2e2f0;
+    --muted: #6e6e8a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(124,106,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,106,247,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), #a855f7);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo-text {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-text span { color: var(--accent); }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(124,106,247,0.15);
+    border: 1px solid rgba(124,106,247,0.3);
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+
+  .stat-pill .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* MAIN */
+  main { padding: 40px 0 80px; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: rgba(124,106,247,0.4); }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent));
+  }
+
+  .stat-num {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    font-family: var(--mono);
+    color: var(--card-accent, var(--accent));
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  /* LAYOUT */
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ACCOUNT LIST */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  .account-list { padding: 8px; }
+
+  .account-item {
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    margin-bottom: 4px;
+  }
+
+  .account-item:hover {
+    background: rgba(124,106,247,0.08);
+    border-color: rgba(124,106,247,0.2);
+  }
+
+  .account-item.active {
+    background: rgba(124,106,247,0.12);
+    border-color: rgba(124,106,247,0.4);
+  }
+
+  .account-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .account-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .version-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+  .v1 { background: rgba(251,189,35,0.15); color: var(--warn); border: 1px solid rgba(251,189,35,0.3); }
+  .v2 { background: rgba(54,211,153,0.15); color: var(--success); border: 1px solid rgba(54,211,153,0.3); }
+
+  .unknown-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--danger);
+  }
+
+  /* DETAIL PANEL */
+  .detail-panel { display: flex; flex-direction: column; gap: 20px; }
+
+  .detail-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .detail-company {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  .detail-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .version-tabs {
+    display: flex;
+    gap: 6px;
+  }
+
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 700;
+  }
+
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .tab-btn.disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* INFO GRID */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+
+  .info-card.full { grid-column: 1 / -1; }
+
+  .info-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .info-value {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid rgba(124,106,247,0.2);
+    color: var(--accent);
+    margin: 2px;
+  }
+
+  .tag.warn { background: rgba(248,114,114,0.1); border-color: rgba(248,114,114,0.3); color: var(--danger); }
+  .tag.success { background: rgba(54,211,153,0.1); border-color: rgba(54,211,153,0.3); color: var(--success); }
+
+  /* PROMPT VIEWER */
+  .prompt-box {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .prompt-header {
+    padding: 10px 16px;
+    background: rgba(124,106,247,0.08);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .copy-btn {
+    background: rgba(124,106,247,0.2);
+    border: 1px solid rgba(124,106,247,0.3);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover { background: rgba(124,106,247,0.4); }
+
+  .prompt-content {
+    padding: 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: #a0a0c0;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .prompt-content::-webkit-scrollbar { width: 6px; }
+  .prompt-content::-webkit-scrollbar-track { background: transparent; }
+  .prompt-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* DIFF VIEWER */
+  .diff-section { display: flex; flex-direction: column; gap: 8px; }
+
+  .diff-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .diff-field {
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .diff-type {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(247,201,72,0.1);
+    border: 1px solid rgba(247,201,72,0.2);
+  }
+
+  .diff-old {
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--danger);
+    background: rgba(248,114,114,0.05);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .diff-new {
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--success);
+    background: rgba(54,211,153,0.05);
+  }
+
+  .unknowns-list .unknown-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .unknowns-list .unknown-item:last-child { border-bottom: none; }
+
+  .q-icon { color: var(--danger); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ANIMATIONS */
+  .fade-in { animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .grid-layout { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .info-grid { grid-template-columns: 1fr; }
+    .info-card.full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🎙</div>
+        <div>
+          <div class="logo-text">Clara <span>Pipeline</span></div>
+        </div>
+        <div class="badge">DASHBOARD</div>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill"><div class="dot"></div> Pipeline Active</div>
+        <div class="stat-pill">Zero-cost · Rule-based + LLM</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- STATS ROW -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card" style="--card-accent: #7c6af7">
+        <div class="stat-num" id="s-accounts">5</div>
+        <div class="stat-label">Accounts</div>
+      </div>
+      <div class="stat-card" style="--card-accent: #36d399">
+        <div class="stat-num" id="s-v2">5</div>
+        <div class="stat-label">Upgraded to v2</div>
+      </div>
+      <div class="stat-card" style="--card-accent: #fbbd23">
+        <div class="stat-num" id="s-unknowns">0</div>
+        <div class="stat-label">Open Unknowns</div>
+      </div>
+      <div class="stat-card" style="--card-accent: #f87272">
+        <div class="stat-num" id="s-changes">—</div>
+        <div class="stat-label">Total Changes</div>
+      </div>
+    </div>
+
+    <!-- LAYOUT -->
+    <div class="grid-layout">
+
+      <!-- ACCOUNT LIST -->
+      <div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Accounts</div>
+          </div>
+          <div class="account-list" id="account-list"></div>
+        </div>
+      </div>
+
+      <!-- DETAIL -->
+      <div class="detail-panel" id="detail-panel">
+        <div class="empty-state">← Select an account to view details</div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+// ─── EMBEDDED DATASET ───────────────────────────────────
+// In production this would be fetched from your storage layer.
+// Here we embed the actual generated data from the pipeline run.
+
+const ACCOUNTS = [
+  {
+    id: "acct_001",
+    company: "Patriot Fire Protection",
+    v1: {
+      version: "v1",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "07:00", end: "17:00", timezone: "America/New_York" },
+      services_supported: ["fire protection","sprinkler","fire alarm","inspection"],
+      emergency_definition: ["sprinkler leak","fire alarm","fire suppression discharge"],
+      emergency_routing_rules: { primary_contact: null, order: [], fallback: "Collect info and assure callback", timeout_seconds: 60 },
+      integration_constraints: ["Never automatically create sprinkler jobs in ServiceTrade without tech review"],
+      questions_or_unknowns: ["Emergency contact phone number not provided"],
+      notes: "Atlanta-area fire protection. 15 years in business. Concerns about duplicate ServiceTrade jobs."
+    },
+    v2: {
+      version: "v2",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "07:00", end: "17:00", timezone: "America/New_York" },
+      office_address: "4821 Peachtree Industrial Blvd, Suite 200, Atlanta, GA 30341",
+      services_supported: ["fire protection","sprinkler","fire alarm","suppression","inspection"],
+      emergency_definition: ["active sprinkler flow","sprinkler leak","fire alarm activation","suppression system discharge","smoke detection alert","active fire","flooding from fire system"],
+      emergency_routing_rules: { primary_contact: "404-555-0182", order: ["404-555-0182","404-555-0219"], fallback: "Email dispatch-emergency@patriotfire.com + assure 10-min callback", timeout_seconds: 45 },
+      non_emergency_routing_rules: { during_hours: "Transfer to office staff", after_hours: "Collect details, confirm next-business-day callback" },
+      call_transfer_rules: { timeout_seconds: 45, on_fail_message: "Tell caller to call 404-555-0100 direct and expect callback within 30 minutes" },
+      integration_constraints: ["Never automatically create sprinkler jobs in ServiceTrade — human review required","After-hours inspection calls may be logged in ServiceTrade as pending"],
+      questions_or_unknowns: [],
+      notes: "Do not say 'your call is important to us'. Use 'service request' not 'ticket'."
+    },
+    changelog: [
+      { field: "office_address", old: null, new: "4821 Peachtree Industrial Blvd, Suite 200, Atlanta, GA 30341", type: "field_added" },
+      { field: "emergency_routing_rules.primary_contact", old: null, new: "404-555-0182", type: "field_added" },
+      { field: "emergency_routing_rules.order", old: [], new: ["404-555-0182","404-555-0219"], type: "list_updated" },
+      { field: "emergency_routing_rules.timeout_seconds", old: 60, new: 45, type: "field_updated" },
+      { field: "call_transfer_rules.timeout_seconds", old: null, new: 45, type: "field_added" },
+      { field: "integration_constraints", old: ["Never automatically create sprinkler jobs in ServiceTrade without tech review"], new: ["Never automatically create sprinkler jobs in ServiceTrade — human review required","After-hours inspection calls may be logged in ServiceTrade as pending"], type: "list_updated" }
+    ]
+  },
+  {
+    id: "acct_002",
+    company: "Apex Electrical Services",
+    v1: {
+      version: "v1",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "18:00", timezone: "America/Chicago" },
+      services_supported: ["electrical","hvac"],
+      emergency_definition: ["complete power loss","electrical fire","burning smell","arc flash","equipment failure"],
+      emergency_routing_rules: { primary_contact: null, order: [], fallback: "Collect and callback", timeout_seconds: 60 },
+      integration_constraints: ["Do not auto-create ServiceTrade jobs for electrical fire calls — supervisor approval required"],
+      questions_or_unknowns: ["Emergency contact phone number not provided"],
+      notes: "Houston-based commercial electrical. 30 field techs."
+    },
+    v2: {
+      version: "v2",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "18:00", timezone: "America/Chicago" },
+      office_address: "1200 Travis Street, Suite 1800, Houston, TX 77002",
+      services_supported: ["electrical","commercial electrical","emergency power","panel upgrades"],
+      emergency_definition: ["complete power loss at commercial facility","electrical fire","burning smell","arc flash risk","equipment failure causing danger","power outage at hospital or medical facility"],
+      emergency_routing_rules: { primary_contact: "713-555-0144", order: ["713-555-0144","713-555-0188"], fallback: "Call 911 if life-threatening, expect callback within 20 minutes", timeout_seconds: 45 },
+      integration_constraints: ["Never auto-create ServiceTrade jobs for electrical fire calls","Flag hospital/medical power outages as Priority 1 before any record creation"],
+      questions_or_unknowns: [],
+      notes: "Transfer timeout 45s — techs often driving."
+    },
+    changelog: [
+      { field: "office_address", old: null, new: "1200 Travis Street, Suite 1800, Houston, TX 77002", type: "field_added" },
+      { field: "emergency_routing_rules.primary_contact", old: null, new: "713-555-0144", type: "field_added" },
+      { field: "emergency_routing_rules.timeout_seconds", old: 60, new: 45, type: "field_updated" }
+    ]
+  },
+  {
+    id: "acct_003",
+    company: "Guardian Alarm Systems",
+    v1: {
+      version: "v1",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "17:00", timezone: "America/Los_Angeles" },
+      services_supported: ["fire alarm","monitoring","alarm contractor"],
+      emergency_definition: ["fire alarm active alert","smoke detected","CO alarm","alarm system malfunction leaving facility unprotected"],
+      emergency_routing_rules: { primary_contact: null, order: [], fallback: null, timeout_seconds: 90 },
+      integration_constraints: ["All calls must be logged with UL compliance fields: time received, caller name, caller number, location, alarm type, disposition"],
+      questions_or_unknowns: ["Emergency contact phone number not provided"],
+      notes: "San Diego. UL compliance logging required for every call."
+    },
+    v2: {
+      version: "v2",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "17:00", timezone: "America/Los_Angeles" },
+      office_address: "3252 Holiday Court, Suite 208, La Jolla, CA 92037",
+      services_supported: ["fire alarm","monitoring","alarm contractor","commercial alarm"],
+      emergency_definition: ["fire alarm in active alert","smoke detected","CO alarm going off","alarm system malfunction","entire alarm panel offline or dark"],
+      emergency_routing_rules: { primary_contact: "619-555-0173", order: ["619-555-0173","619-555-0191"], fallback: "Send SMS to manager 619-555-0200, log emergency", timeout_seconds: 90 },
+      integration_constraints: ["Do not interact with proprietary monitoring software","UL compliance: log every call with timestamp, caller name, number, location, alarm type, disposition"],
+      questions_or_unknowns: [],
+      notes: "Panel offline = emergency even without active alarm."
+    },
+    changelog: [
+      { field: "office_address", old: null, new: "3252 Holiday Court, Suite 208, La Jolla, CA 92037", type: "field_added" },
+      { field: "emergency_routing_rules.primary_contact", old: null, new: "619-555-0173", type: "field_added" },
+      { field: "emergency_routing_rules.order", old: [], new: ["619-555-0173","619-555-0191"], type: "list_updated" }
+    ]
+  },
+  {
+    id: "acct_004",
+    company: "Midwest HVAC Solutions",
+    v1: {
+      version: "v1",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "07:30", end: "16:30", timezone: "America/Chicago" },
+      services_supported: ["hvac","facility maintenance"],
+      emergency_definition: ["cold storage HVAC failure","complete heating failure in hospital or care facility"],
+      emergency_routing_rules: { primary_contact: null, order: [], fallback: null, timeout_seconds: 60 },
+      integration_constraints: ["Do not create records in any external system — collect and route only"],
+      questions_or_unknowns: ["Emergency contact phone number not provided","A/C failure emergency logic needs clarification"],
+      notes: "Chicago-based. Cold storage clients = critical SLA."
+    },
+    v2: {
+      version: "v2",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "07:30", end: "16:30", timezone: "America/Chicago" },
+      office_address: "2340 S River Rd, Des Plaines, IL 60018",
+      services_supported: ["hvac","commercial hvac","cold storage refrigeration","heating","cooling"],
+      emergency_definition: ["cold storage or food storage HVAC failure (any time)","complete heat failure at hospital/nursing home/school","A/C failure at medical facility or server room when outdoor temp above 85°F"],
+      emergency_routing_rules: { primary_contact: "312-555-0163", order: ["312-555-0163","312-555-0177"], fallback: "SMS alert to on-call manager, assure 15-min callback", timeout_seconds: 60 },
+      integration_constraints: ["Do not create records in any external system","Collect and route only — all data entry handled internally"],
+      questions_or_unknowns: [],
+      notes: "A/C failure logic: medical/server room + temp > 85°F = emergency. Otherwise non-emergency."
+    },
+    changelog: [
+      { field: "office_address", old: null, new: "2340 S River Rd, Des Plaines, IL 60018", type: "field_added" },
+      { field: "emergency_routing_rules.primary_contact", old: null, new: "312-555-0163", type: "field_added" },
+      { field: "emergency_definition", old: ["cold storage HVAC failure","complete heating failure in hospital or care facility"], new: ["cold storage or food storage HVAC failure (any time)","complete heat failure at hospital/nursing home/school","A/C failure at medical facility or server room when outdoor temp above 85°F"], type: "list_updated" }
+    ]
+  },
+  {
+    id: "acct_005",
+    company: "National Suppression Group",
+    v1: {
+      version: "v1",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "18:00", timezone: "America/New_York" },
+      services_supported: ["fire suppression","sprinkler","suppression"],
+      emergency_definition: ["suppression system discharge","suppression system fault","pre-action system activation"],
+      emergency_routing_rules: { primary_contact: null, order: [], fallback: null, timeout_seconds: null },
+      integration_constraints: ["Never create records in Salesforce — ops team handles all CRM activity manually"],
+      questions_or_unknowns: ["Emergency contact phone number not provided","3-minute SLA routing contacts need confirmation from ops team"],
+      notes: "Fortune 500 / government data center clients. Strict SLA and data security requirements."
+    },
+    v2: {
+      version: "v2",
+      business_hours: { days: ["Monday","Tuesday","Wednesday","Thursday","Friday"], start: "08:00", end: "18:00", timezone: "America/New_York" },
+      office_address: "1875 Connecticut Ave NW, Suite 650, Washington, DC 20009",
+      services_supported: ["fire suppression","clean agent","CO2 suppression","FM-200","Novec","data center suppression"],
+      emergency_definition: ["suppression system discharge","suppression system fault or trouble","pre-action system activation","any live data center at risk"],
+      emergency_routing_rules: { primary_contact: "202-555-0156", order: ["202-555-0156 (East)","202-555-0167 (West)","1-800-555-0199 (National)"], fallback: "SMS all 3 regional managers, tell caller 'A senior technician will contact you within 15 minutes. This is our commitment.'", timeout_seconds: 45 },
+      call_transfer_rules: { timeout_seconds: 45, on_fail_message: "A senior technician has been alerted and will contact you within 15 minutes. This is our commitment." },
+      integration_constraints: ["Never create, modify, or delete any record in Salesforce","No Salesforce integration permitted — government data security requirement"],
+      questions_or_unknowns: [],
+      notes: "After-hours greeting: 'National Suppression Group Emergency Line'. Never mention SLA timelines. Never say 'I'll do my best'. Say 'This is our commitment'."
+    },
+    changelog: [
+      { field: "office_address", old: null, new: "1875 Connecticut Ave NW, Suite 650, Washington, DC 20009", type: "field_added" },
+      { field: "emergency_routing_rules.primary_contact", old: null, new: "202-555-0156", type: "field_added" },
+      { field: "emergency_routing_rules.order", old: [], new: ["202-555-0156 (East)","202-555-0167 (West)","1-800-555-0199 (National)"], type: "list_updated" },
+      { field: "emergency_routing_rules.timeout_seconds", old: null, new: 45, type: "field_added" },
+      { field: "call_transfer_rules.on_fail_message", old: null, new: "A senior technician has been alerted and will contact you within 15 minutes. This is our commitment.", type: "field_added" }
+    ]
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────
+let selectedId = null;
+let selectedVersion = "v2";
+
+// ─── INIT ────────────────────────────────────────────────
+function init() {
+  renderStats();
+  renderAccountList();
+  selectAccount(ACCOUNTS[0].id);
+}
+
+function renderStats() {
+  const totalUnknowns = ACCOUNTS.reduce((acc, a) => acc + (a.v2.questions_or_unknowns?.length || 0), 0);
+  const totalChanges = ACCOUNTS.reduce((acc, a) => acc + (a.changelog?.length || 0), 0);
+  document.getElementById('s-accounts').textContent = ACCOUNTS.length;
+  document.getElementById('s-v2').textContent = ACCOUNTS.filter(a => a.v2).length;
+  document.getElementById('s-unknowns').textContent = totalUnknowns;
+  document.getElementById('s-changes').textContent = totalChanges;
+}
+
+function renderAccountList() {
+  const list = document.getElementById('account-list');
+  list.innerHTML = ACCOUNTS.map(a => {
+    const unknowns = a.v2.questions_or_unknowns?.length || 0;
+    return `
+      <div class="account-item ${a.id === selectedId ? 'active' : ''}" onclick="selectAccount('${a.id}')">
+        <div class="account-name">${a.company}</div>
+        <div class="account-meta">
+          <span class="version-badge v1">v1</span>
+          ${a.v2 ? '<span class="version-badge v2">v2</span>' : ''}
+          <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">${a.id}</span>
+          ${unknowns > 0 ? `<span class="unknown-count">⚠ ${unknowns}</span>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectAccount(id) {
+  selectedId = id;
+  selectedVersion = "v2";
+  renderAccountList();
+  renderDetail();
+}
+
+function switchVersion(v) {
+  selectedVersion = v;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-v="${v}"]`)?.classList.add('active');
+  renderMemoSection();
+}
+
+function renderDetail() {
+  const acct = ACCOUNTS.find(a => a.id === selectedId);
+  if (!acct) return;
+
+  const panel = document.getElementById('detail-panel');
+  panel.innerHTML = `
+    <div class="fade-in">
+      <div class="detail-header">
+        <div>
+          <div class="detail-company">${acct.company}</div>
+          <div class="detail-id">${acct.id} · Clara Voice Agent</div>
+        </div>
+        <div class="version-tabs">
+          <button class="tab-btn ${selectedVersion === 'v1' ? 'active' : ''}" data-v="v1" onclick="switchVersion('v1')">v1 Demo</button>
+          <button class="tab-btn ${selectedVersion === 'v2' ? 'active' : ''}" data-v="v2" onclick="switchVersion('v2')">v2 Onboarding</button>
+        </div>
+      </div>
+
+      <div id="memo-section"></div>
+
+      <div class="section-title">Agent Prompt</div>
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>system_prompt · ${selectedVersion}</span>
+          <button class="copy-btn" onclick="copyPrompt()">Copy</button>
+        </div>
+        <div class="prompt-content" id="prompt-content">${buildPrompt(acct, selectedVersion)}</div>
+      </div>
+
+      ${acct.changelog && acct.changelog.length > 0 ? `
+        <div class="section-title">v1 → v2 Diff</div>
+        <div class="diff-section">
+          ${acct.changelog.map(c => `
+            <div class="diff-item">
+              <div class="diff-field">
+                <span>${c.field}</span>
+                <span class="diff-type">${c.type}</span>
+              </div>
+              <div class="diff-old">− ${JSON.stringify(c.old)}</div>
+              <div class="diff-new">+ ${JSON.stringify(c.new)}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  renderMemoSection();
+}
+
+function renderMemoSection() {
+  const acct = ACCOUNTS.find(a => a.id === selectedId);
+  if (!acct) return;
+
+  const data = selectedVersion === 'v1' ? acct.v1 : acct.v2;
+  const bh = data.business_hours || {};
+  const routing = data.emergency_routing_rules || {};
+  const unknowns = data.questions_or_unknowns || [];
+
+  document.getElementById('memo-section').innerHTML = `
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-label">Business Hours</div>
+        <div class="info-value">
+          ${(bh.days || []).join(', ') || '—'}<br>
+          <span style="color:var(--accent);font-family:var(--mono);font-size:13px">${bh.start || '?'} – ${bh.end || '?'}</span>
+          <span style="color:var(--muted);font-size:12px"> ${bh.timezone || ''}</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Emergency Routing</div>
+        <div class="info-value" style="font-family:var(--mono);font-size:12px">
+          ${routing.primary_contact 
+            ? `Primary: <span style="color:var(--success)">${routing.primary_contact}</span>` 
+            : '<span style="color:var(--danger)">Not confirmed</span>'
+          }<br>
+          ${routing.timeout_seconds ? `Timeout: ${routing.timeout_seconds}s` : ''}
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Services</div>
+        <div class="info-value">
+          ${(data.services_supported || []).map(s => `<span class="tag">${s}</span>`).join('') || '—'}
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-label">Emergency Triggers</div>
+        <div class="info-value">
+          ${(data.emergency_definition || []).map(e => `<span class="tag warn">${e}</span>`).join('') || '—'}
+        </div>
+      </div>
+      ${data.office_address ? `
+        <div class="info-card">
+          <div class="info-card-label">Office Address</div>
+          <div class="info-value" style="font-size:13px">${data.office_address}</div>
+        </div>
+      ` : ''}
+      ${data.integration_constraints?.length ? `
+        <div class="info-card ${data.office_address ? '' : 'full'}">
+          <div class="info-card-label">Integration Constraints</div>
+          <div class="info-value">
+            ${data.integration_constraints.map(c => `<div style="font-size:12px;margin-bottom:4px;padding:6px 8px;background:rgba(248,114,114,0.06);border-radius:4px;border-left:2px solid var(--danger)">⚠ ${c}</div>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+      ${unknowns.length > 0 ? `
+        <div class="info-card full">
+          <div class="info-card-label" style="color:var(--danger)">Open Unknowns (${unknowns.length})</div>
+          <div class="unknowns-list">
+            ${unknowns.map(u => `
+              <div class="unknown-item">
+                <div class="q-icon">❓</div>
+                <div>${u}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : `
+        <div class="info-card full" style="border-color:rgba(54,211,153,0.2)">
+          <div class="info-card-label" style="color:var(--success)">✅ All Unknowns Resolved</div>
+          <div class="info-value" style="color:var(--muted);font-size:13px">Configuration complete for ${selectedVersion}.</div>
+        </div>
+      `}
+      ${data.notes ? `
+        <div class="info-card full">
+          <div class="info-card-label">Notes</div>
+          <div class="info-value" style="font-size:13px;color:var(--muted)">${data.notes}</div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function buildPrompt(acct, version) {
+  const data = version === 'v1' ? acct.v1 : acct.v2;
+  const bh = data.business_hours || {};
+  const routing = data.emergency_routing_rules || {};
+  const days = (bh.days || []).join(', ') || 'Monday–Friday';
+  const hours = `${bh.start || '08:00'}–${bh.end || '17:00'} ${bh.timezone || ''}`;
+  const emergencies = (data.emergency_definition || []).join(', ');
+  const primary = routing.primary_contact || '[ON-CALL NUMBER TBD]';
+  const timeout = routing.timeout_seconds || 60;
+
+  return `You are Clara, a professional AI voice assistant for ${acct.company}.
+
+BUSINESS HOURS: ${days}, ${hours}
+
+DURING HOURS FLOW:
+1. GREET: "Thank you for calling ${acct.company}. This is Clara."
+2. ASK PURPOSE: Listen and classify as emergency or non-emergency.
+3. COLLECT: Full name and callback number.
+4. TRANSFER: "Let me connect you. Please hold."
+5. IF TRANSFER FAILS (${timeout}s): Apologize, confirm 30-min callback.
+6. CLOSE: "Is there anything else I can help with?"
+
+AFTER HOURS FLOW:
+1. GREET: "You've reached ${acct.company}. We're outside business hours."
+2. ASK PURPOSE and confirm emergency status.
+3. EMERGENCY TRIGGERS: ${emergencies || '[To be confirmed]'}
+4. IF EMERGENCY:
+   — Collect: name, callback number, property address
+   — Transfer to: ${primary}
+   — Timeout: ${timeout}s then escalate
+   — If fails: "Your info is logged. Callback within 15 min."
+5. IF NON-EMERGENCY:
+   — Collect: name, number, issue description
+   — Confirm next-business-day followup
+6. CLOSE warmly.
+
+RULES:
+— Never mention tools, functions, or internal logic to callers
+— Never say "your call is important to us"
+— Collect only what routing requires
+${(data.integration_constraints || []).map(c => `— [INTERNAL] ${c}`).join('\n')}`;
+}
+
+function copyPrompt() {
+  const content = document.getElementById('prompt-content')?.textContent || '';
+  navigator.clipboard.writeText(content).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+  });
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "account_id": "acct_003",
+  "company_name": "Guardian Alarm Systems",
+  "version": "v2",
+  "created_at": "2026-03-03T11:52:05.787724Z",
+  "updated_at": "2026-03-03T11:52:05.788331Z",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "08:00",
+    "end": "17:00",
+    "timezone": "America/Los_Angeles"
+  },
+  "office_address": "3252 Holiday Court, Suite 208, La Jolla, CA 92037",
+  "services_supported": [
+    "monitoring"
+  ],
+  "emergency_definition": [
+    "fire alarm",
+    "alarm going off"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": "619-555-0173",
+    "phone_tree": null,
+    "order": [
+      "619-555-0173",
+      "619-555-0191",
+      "619-555-0200"
+    ],
+    "fallback": null,
+    "timeout_seconds": null
+  },
+  "non_emergency_routing_rules": {
+    "during_hours": null,
+    "after_hours": null,
+    "collect_details": true
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail_message": null
+  },
+  "integration_constraints": [
+    "Do not interact with proprietary monitoring software",
+    "UL compliance required - log every call with timestamp, caller name, number, location, alarm type, and disposition"
+  ],
+  "after_hours_flow_summary": "Greet caller, state business hours, confirm if emergency. If emergency: collect name, number, address, attempt transfer to on-call. If transfer fails, assure 15-min callback. If non-emergency: collect details, confirm next-business-day followup.",
+  "office_hours_flow_summary": "Greet caller, identify purpose, collect name and callback number, transfer to appropriate team during 08:00\u201317:00 America/Los_Angeles. If transfer fails, confirm 30-min callback.",
+  "questions_or_unknowns": [
+    "Emergency triggers not defined"
+  ],
+  "notes": "",
+  "_pipeline": "demo_call",
+  "_source_file": "data/transcripts/acct_003_demo.txt"
+}
