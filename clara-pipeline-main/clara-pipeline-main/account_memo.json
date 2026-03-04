@@ -1,0 +1,60 @@
+{
+  "account_id": "acct_001",
+  "company_name": "Patriot Fire Protection",
+  "version": "v1",
+  "created_at": "2026-03-03T11:25:00.204561Z",
+  "updated_at": "2026-03-03T11:25:00.204570Z",
+  "business_hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "start": "07:00",
+    "end": "17:00",
+    "timezone": "America/New_York"
+  },
+  "office_address": null,
+  "services_supported": [
+    "fire protection",
+    "sprinkler",
+    "fire alarm",
+    "suppression",
+    "inspection"
+  ],
+  "emergency_definition": [
+    "fire alarm",
+    "fire suppression"
+  ],
+  "emergency_routing_rules": {
+    "primary_contact": null,
+    "phone_tree": null,
+    "order": [],
+    "fallback": null,
+    "timeout_seconds": null
+  },
+  "non_emergency_routing_rules": {
+    "during_hours": null,
+    "after_hours": null,
+    "collect_details": true
+  },
+  "call_transfer_rules": {
+    "timeout_seconds": null,
+    "retries": null,
+    "on_fail_message": null
+  },
+  "integration_constraints": [
+    "[SALES REP]: And you mentioned ServiceTrade - are you using that for your service management?\n\n[MIKE]: Yeah",
+    "So we're very careful about not automatically creating jobs in ServiceTrade without a tech reviewing it first"
+  ],
+  "after_hours_flow_summary": null,
+  "office_hours_flow_summary": null,
+  "questions_or_unknowns": [
+    "Emergency contact phone number not provided"
+  ],
+  "notes": "",
+  "_pipeline": "demo_call",
+  "_source_file": "data/transcripts/acct_001_demo.txt"
+}
