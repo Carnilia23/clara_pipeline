@@ -1,0 +1,59 @@
+{
+  "account_id": "acct_005",
+  "from_version": "v1",
+  "to_version": "v2",
+  "patch_source": "onboarding_call",
+  "applied_at": "2026-03-03T11:52:05.870494Z",
+  "summary": "5 field(s) changed, 1 unknown(s) resolved, 0 conflict(s) detected",
+  "changes": [
+    {
+      "field": "questions_or_unknowns",
+      "old": [
+        "Emergency contact phone number not provided"
+      ],
+      "new": [
+        "Emergency triggers not defined"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "created_at",
+      "old": "2026-03-03T11:52:05.846557Z",
+      "new": "2026-03-03T11:52:05.869750Z",
+      "type": "field_updated"
+    },
+    {
+      "field": "emergency_routing_rules.primary_contact",
+      "old": null,
+      "new": "202-555-0156",
+      "type": "field_added"
+    },
+    {
+      "field": "emergency_routing_rules.order",
+      "old": [],
+      "new": [
+        "202-555-0156",
+        "202-555-0167",
+        "1-800-555-0199"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "integration_constraints",
+      "old": [
+        "Clara should never create records in Salesforce - our system has very specific record formats our ops team manages"
+      ],
+      "new": [
+        "[SPECIALIST]: Salesforce constraint was never create records - can you clarify?\n\n[ROBERT]: Never create, modify, or delete any record in Salesforce"
+      ],
+      "type": "list_updated"
+    }
+  ],
+  "conflicts": [],
+  "unknowns_resolved": [
+    "Emergency contact phone number not provided"
+  ],
+  "unknowns_remaining": [
+    "Emergency triggers not defined"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "account_id": "acct_004",
+  "from_version": "v1",
+  "to_version": "v2",
+  "patch_source": "onboarding_call",
+  "applied_at": "2026-03-03T11:52:05.836445Z",
+  "summary": "7 field(s) changed, 1 unknown(s) resolved, 0 conflict(s) detected",
+  "changes": [
+    {
+      "field": "business_hours.start",
+      "old": "02:00",
+      "new": "07:30",
+      "type": "field_updated"
+    },
+    {
+      "field": "business_hours.end",
+      "old": "07:30",
+      "new": "16:30",
+      "type": "field_updated"
+    },
+    {
+      "field": "questions_or_unknowns",
+      "old": [
+        "Emergency triggers not defined",
+        "Emergency contact phone number not provided"
+      ],
+      "new": [
+        "Emergency triggers not defined"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "created_at",
+      "old": "2026-03-03T11:52:05.803322Z",
+      "new": "2026-03-03T11:52:05.836079Z",
+      "type": "field_updated"
+    },
+    {
+      "field": "emergency_routing_rules.primary_contact",
+      "old": null,
+      "new": "312-555-0163",
+      "type": "field_added"
+    },
+    {
+      "field": "emergency_routing_rules.order",
+      "old": [],
+      "new": [
+        "312-555-0163",
+        "312-555-0177"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "integration_constraints",
+      "old": [
+        "[SALES REP]: Any integrations?\n\n[DIANE]: We use our own dispatch software, not ServiceTrade"
+      ],
+      "new": [
+        "Any system integration rules?\n\n[DIANE]: Do not create records in any external system"
+      ],
+      "type": "list_updated"
+    }
+  ],
+  "conflicts": [],
+  "unknowns_resolved": [
+    "Emergency contact phone number not provided"
+  ],
+  "unknowns_remaining": [
+    "Emergency triggers not defined"
+  ]
+}

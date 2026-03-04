@@ -1,0 +1,90 @@
+{
+  "account_id": "acct_001",
+  "from_version": "v1",
+  "to_version": "v2",
+  "patch_source": "onboarding_call",
+  "applied_at": "2026-03-03T17:44:11.541605Z",
+  "summary": "7 field(s) changed, 1 unknown(s) resolved, 0 conflict(s) detected",
+  "changes": [
+    {
+      "field": "emergency_routing_rules.primary_contact",
+      "old": null,
+      "new": "404-555-0182",
+      "type": "field_added"
+    },
+    {
+      "field": "emergency_routing_rules.order",
+      "old": [],
+      "new": [
+        "404-555-0182",
+        "404-555-0219",
+        "404-555-0100"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "created_at",
+      "old": "2026-03-03T17:41:52.745167Z",
+      "new": "2026-03-03T17:44:11.540304Z",
+      "type": "field_updated"
+    },
+    {
+      "field": "integration_constraints",
+      "old": [
+        "[SALES REP]: And you mentioned ServiceTrade - are you using that for your service management?\n\n[MIKE]: Yeah",
+        "So we're very careful about not automatically creating jobs in ServiceTrade without a tech reviewing it first"
+      ],
+      "new": [
+        "Now about ServiceTrade - you had some concerns during the demo?\n\n[MIKE]: Right",
+        "So the rule is: never automatically create a job in ServiceTrade for sprinkler-related calls",
+        "[SARAH]: Also, any inspection calls that come in after hours, we do want those logged in ServiceTrade as pending, that's fine"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "services_supported",
+      "old": [
+        "fire protection",
+        "sprinkler",
+        "fire alarm",
+        "suppression",
+        "inspection"
+      ],
+      "new": [
+        "fire protection",
+        "sprinkler",
+        "fire alarm",
+        "suppression",
+        "inspection",
+        "extinguisher"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "questions_or_unknowns",
+      "old": [
+        "Emergency contact phone number not provided"
+      ],
+      "new": [],
+      "type": "list_updated"
+    },
+    {
+      "field": "emergency_definition",
+      "old": [
+        "fire alarm",
+        "fire suppression"
+      ],
+      "new": [
+        "fire alarm",
+        "active fire",
+        "flooding"
+      ],
+      "type": "list_updated"
+    }
+  ],
+  "conflicts": [],
+  "unknowns_resolved": [
+    "Emergency contact phone number not provided"
+  ],
+  "unknowns_remaining": []
+}

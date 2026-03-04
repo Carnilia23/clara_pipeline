@@ -1,0 +1,71 @@
+{
+  "account_id": "acct_003",
+  "from_version": "v1",
+  "to_version": "v2",
+  "patch_source": "onboarding_call",
+  "applied_at": "2026-03-03T11:52:05.788426Z",
+  "summary": "7 field(s) changed, 1 unknown(s) resolved, 0 conflict(s) detected",
+  "changes": [
+    {
+      "field": "business_hours.start",
+      "old": "02:00",
+      "new": "08:00",
+      "type": "field_updated"
+    },
+    {
+      "field": "business_hours.end",
+      "old": "08:00",
+      "new": "17:00",
+      "type": "field_updated"
+    },
+    {
+      "field": "questions_or_unknowns",
+      "old": [
+        "Emergency contact phone number not provided"
+      ],
+      "new": [
+        "Emergency triggers not defined"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "created_at",
+      "old": "2026-03-03T11:52:05.765819Z",
+      "new": "2026-03-03T11:52:05.787724Z",
+      "type": "field_updated"
+    },
+    {
+      "field": "emergency_routing_rules.primary_contact",
+      "old": null,
+      "new": "619-555-0173",
+      "type": "field_added"
+    },
+    {
+      "field": "emergency_routing_rules.order",
+      "old": [],
+      "new": [
+        "619-555-0173",
+        "619-555-0191",
+        "619-555-0200"
+      ],
+      "type": "list_updated"
+    },
+    {
+      "field": "services_supported",
+      "old": [
+        "fire alarm"
+      ],
+      "new": [
+        "monitoring"
+      ],
+      "type": "list_updated"
+    }
+  ],
+  "conflicts": [],
+  "unknowns_resolved": [
+    "Emergency contact phone number not provided"
+  ],
+  "unknowns_remaining": [
+    "Emergency triggers not defined"
+  ]
+}
